@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 //  Feature-Member
 let appData = {
     members: [],
@@ -24,7 +22,6 @@ function addMember(name) {
 function listMembers() {
     console.table(appData.members);
 }
-=======
 
 
 
@@ -53,8 +50,7 @@ function addExpense(paidBy, amount, description) {
 function listExpenses() {
   console.table(appData.expenses);
 }
->>>>>>> ali-code
-=======
+
 function generateReport() {
   if (appData.expenses.length === 0) {
     console.log("ℹ️ No expenses found!");
@@ -102,4 +98,32 @@ function generateReport() {
     else console.log(`${m}: Settled up`);
   }
 }
->>>>>>> ismail-code
+function saveData(){
+    localStorage.setItem("teamData", JSON.stringify(appData))
+    console.log("✅ Data saved to localStorage.");
+}
+
+function loadData(){
+    const storedData = localStorage.getItem("teamData")
+    if(storedData){
+        appData = JSON.parse(storedData)
+        console.log("✅ Data Loaded From LocalStorage")
+    }
+    else{
+        console.log("ℹ️ No Saved Data Found")
+    }
+}
+function clearData(){
+    localStorage.removeItem("teamData")
+    appData = {members:[], expenses: [], nextExpenseId: 1}
+    console.log("All saved data cleared from localstorage")
+}
+
+appData.members.push("Adnan")
+appData.expenses.push({id: appData.nextExpenseId++, description: "Text Expense", paidBy: "Hassan", amount: 500})
+
+saveData()
+loadData()
+
+
+
