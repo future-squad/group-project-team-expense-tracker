@@ -1,41 +1,28 @@
 
-let expenses = [];
+let expense = [];
 
-function add_Expense(amount, description, paidby) {
-    if (!members.includes(paidby.toLowerCase())) {
-        console.log(`Error: member: ${paidby} doesn't exist`)
-        return false;
-    }
+function addExpense(paidBy, amount, description) {
 
-    const expense = {
-        amount: amount,
-        description: description,
-        paidby: paidby
-    };
+  const memberExists = appData.members.some(
+    (m) => m.toLowerCase() === paidBy.toLowerCase()
+  );
+  if (!memberExists) {
+    console.log(" Error: Member ${paidBy} doesn't exist.");
+    return;
+  }
 
-    expenses.push(expense);
-    console.log("Expenses added successfully!")
-    return expense;
+  const expense = {
+    id: appData.nextExpenseId++,
+    paidBy,
+    amount,
+    description
+  };
+
+  appData.expenses.push(expense);
+  console.log(" Added expense: ${description} (${amount}) by ${paidBy}");
+  saveData();
 }
 
-function listexpenses() {
-    console.table(expenses);
+function listExpenses() {
+  console.table(appData.expenses);
 }
-
-add_Expense(300,"lunch","haider");
-add_Expense(500,"breaki","hassan");
-add_Expense(900,"coffee","ismail");
-add_Expense(100,"dinner", "adnan");
-add_Expense(560,"steak","ali")
-
-
-
-
-listexpenses ();
-
-
-
-
-
-
-
