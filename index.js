@@ -20,10 +20,8 @@ function addMember(name) {
 }
 
 function listMembers() {
-    console.table(appData.members);
+   console.table(appData.members.map(name => ({ Name: name })));
 }
-
-
 
 function addExpense(paidBy, amount, description) {
 
@@ -31,7 +29,7 @@ function addExpense(paidBy, amount, description) {
     (m) => m.toLowerCase() === paidBy.toLowerCase()
   );
   if (!memberExists) {
-    console.log(" Error: Member ${paidBy} doesn't exist.");
+    console.log(`Error: Member ${paidBy} doesn't exist.`);
     return;
   }
 
@@ -43,7 +41,7 @@ function addExpense(paidBy, amount, description) {
   };
 
   appData.expenses.push(expense);
-  console.log(" Added expense: ${description} (${amount}) by ${paidBy}");
+  console.log(`Added expense: ${description} (${amount}) by ${paidBy}`);
   saveData();
 }
 
@@ -119,11 +117,26 @@ function clearData(){
     console.log("All saved data cleared from localstorage")
 }
 
-appData.members.push("Adnan")
 appData.expenses.push({id: appData.nextExpenseId++, description: "Text Expense", paidBy: "Hassan", amount: 500})
 
-saveData()
-loadData()
+
+loadData();
 
 
+addMember("Hassan"); 
+addMember("Sara");   
+addMember("adnan");  
+
+listMembers(); 
+
+addExpense("Hassan", 300, "Lunch");   
+addExpense("Sara", 200, "Snacks");    
+addExpense("ADNAN", 100, "Coffee");     
+addExpense("hh", 100, "Coffee");     
+
+listExpenses();
+
+generateReport();  
+
+clearData();
 
