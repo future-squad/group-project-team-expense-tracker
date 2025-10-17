@@ -1,5 +1,5 @@
 
-let expense = [];
+
 
 function addExpense(paidBy, amount, description) {
 
