@@ -1,70 +1,47 @@
-console.log(`hey `)
+function generateReport() {
+  if (appData.expenses.length === 0) {
+    console.log("ℹ️ No expenses found!");
+    return;
+  }
 
+  let totalExpenses = 0;
+  let memberSpendings = {};
 
-const expenses =[
-    {name:"ismail",amount:1200},
-    {name:"haider", amount:4000},
-    {name:"tahir", amount:500},
-    {name: "sara", amount: 349}
-]
+ 
+  for (let exp of appData.expenses) {
+    totalExpenses += exp.amount;
 
-let totalExpenses = 0;
+    const member = exp.paidBy;
+    if (!memberSpendings[member]) {
+      memberSpendings[member] = 0;
+    }
+    memberSpendings[member] += exp.amount;
+  }
 
-for(let i = 0; i<expenses.length;i++){
-totalExpenses += expenses[i].amount;
-}
+  const members = Object.keys(memberSpendings);
+  const avgExpense = totalExpenses / appData.members.length;
 
-let memberSpendings = {};
+ 
+  let balance = {};
+  for (let m of appData.members) {
+    const spent = memberSpendings[m] || 0;
+    balance[m] = spent - avgExpense;
+  }
 
-for(let i =0 ; i< expenses.length;i++){
-    let person = expenses[i].name;
-  let amount = expenses[i].amount;
+  console.log("\n===== TEAM EXPENSE REPORT =====");
+  console.log(`Total Expenses: ${totalExpenses}`);
+  console.log(`Each Member’s Share: ${avgExpense.toFixed(2)}\n`);
 
-if(!memberSpendings[person]){
-memberSpendings[person] = 0;
-}
+  console.log("Member Spending:");
+  for (let m of appData.members) {
+    console.log(`${m} spent ${memberSpendings[m] || 0}`);
+  }
 
-memberSpendings[person] +=amount
-
-}
-
-let member = Object.keys(memberSpendings);
-let avgExpenses = totalExpenses/member.length;
-
-
-
-let balance = {};
-for(let i =0; i< member.length;i++){
-    let person = member[i];
-    balance[person] = memberSpendings[person] - avgExpenses;
-
-}
-
-
-console.log("========= GROUP EXPENSE REPORT =========");
-console.log(`Total Expenses = $${totalExpenses}`);
-console.log(`Average expense of per person is ${avgExpenses.toFixed(3)}\n`)
-
-
-console.log("Members Details")
-for(let i = 0; i<member.length;i++){
-    let person = member[i];
-    let spent = memberSpendings[person];
-    let bal = balance[person]
-
-
-if(bal>0){
-    console.log(`${person} spent $${spent} -> get back ${bal.toFixed(2)}\n`)
-} else if(bal<0){
-    console.log(`${person} spents $${spent} -> owes to ${Math.abs(bal).toFixed(2)}\n`)
-
-} else{
-    console.log(`${person} spents ${spent} -> settled up`)
-}
-
-
-
-
-
-
+  console.log("\nBalances:")
+  for (let m of appData.members) {
+    const bal = balance[m];
+    if (bal > 0) console.log(`${m}: +${bal.toFixed(2)} (should get back)`);
+    else if (bal < 0) console.log(`${m}: ${bal.toFixed(2)} (owes money)`);
+    else console.log(`${m}: Settled up`);
+  }
 }
