@@ -1,28 +1,24 @@
 //  Feature-Member
-let members = [];
-function addmember(name) {
-    let lowername = name.toLowerCase();
-    for (let member of members) {
-        if (member.toLowerCase() === lowername) {
-            console.log(`❌ ${name} was already exist`)
+let appData = {
+    members: [],
+    expenses: [],
+    nextExpenseId: 1
+};
+function addMember(name) {
+    const lowerName = name.toLowerCase();
+
+    for (let member of appData.members) {
+        if (member.toLowerCase() === lowerName) {
+            console.log(`❌ ${name} already exists.`);
             return;
         }
     }
-    members.push(name)
-    console.log("✅Member Added:", name)
-}
-addmember("adnan")
-addmember("sara")
-addmember("ali")
-addmember("hussain")
-addmember("hassan")
-addmember("adnan")
-addmember("imran")
-addmember("imran")
 
-function tabular(members) {
-    console.table(members.map(s => {
-        return s;
-    }))
+    appData.members.push(name);
+    console.log(`✅ Member added: ${name}`);
+    saveData();
 }
-tabular(members)
+
+function listMembers() {
+    console.table(appData.members);
+}
